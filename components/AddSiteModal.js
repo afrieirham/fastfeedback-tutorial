@@ -13,22 +13,47 @@ import {
   Input,
   Button,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
-import { createSite } from '@/lib/db'
 
-function AddSiteModal() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+import { createSite } from '@/lib/db'
+import { useAuth } from '@/lib/auth'
+
+function AddSiteModal({ children }) {
   const initialRef = useRef()
+  const toast = useToast()
+  const auth = useAuth()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleSubmit, register } = useForm()
 
-  const onSubmit = (data) => {
-    createSite(data)
+  const onSubmit = ({ name, url }) => {
+    createSite({
+      authorId: auth.user.uid,
+      createdAt: new Date().toISOString(),
+      name,
+      url,
+    })
+    onClose()
+    toast({
+      title: 'Success!',
+      description: "We've created your site.",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    })
   }
 
   return (
     <>
-      <Button variant='solid' size='md' maxWidth='200px' onClick={onOpen}>
-        Add Your First Site
+      <Button
+        onClick={onOpen}
+        backgroundColor='gray.900'
+        color='white'
+        fontWeight='semibold'
+        _hover={{ bg: 'gray.700' }}
+        _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
+      >
+        {children}
       </Button>
 
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
