@@ -8,6 +8,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Heading,
+  Button,
 } from '@chakra-ui/react'
 
 import { LogoIcon } from '@/styles/icons/logo'
@@ -31,10 +32,12 @@ const DashboardShell = ({ children }) => {
           <Link>Sites</Link>
         </Stack>
         <Stack spacing={2} isInline justifyContent='center' alignItems='center'>
-          <Link mr={4} onClick={() => auth.signOut()}>
-            Log Out
-          </Link>
-          <Avatar size='sm' src={auth.user.photoUrl} />
+          {auth.user && (
+            <Button variant='ghost' mr={4} onClick={() => auth.signOut()}>
+              Log Out
+            </Button>
+          )}
+          <Avatar size='sm' src={auth.user?.photoUrl} />
         </Stack>
       </Flex>
       <Flex backgroundColor='gray.50' p={8} height='100vh'>
