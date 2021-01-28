@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { mutate } from 'swr'
 import {
   Modal,
   ModalOverlay,
@@ -27,13 +28,19 @@ function AddSiteModal({ children }) {
   const { handleSubmit, register } = useForm()
 
   const onSubmit = ({ name, url }) => {
-    createSite({
+    const newSite = {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
       name,
       url,
-    })
-    onClose()
+    }
+
+    // Add site to db
+    createSite(newSite)
+
+    // Update local sites data
+    mutate('/api/sites', async (sites) => [newSite, ...sites], false)
+
     toast({
       title: 'Success!',
       description: "We've created your site.",
@@ -41,6 +48,7 @@ function AddSiteModal({ children }) {
       duration: 5000,
       isClosable: true,
     })
+    onClose()
   }
 
   return (
