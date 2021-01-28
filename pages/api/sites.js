@@ -8,5 +8,8 @@ export default async (_, res) => {
     sites.push({ id: doc.id, ...doc.data() })
   })
 
-  return res.status(200).json(sites)
+  // Sort sites based on createdAt
+  const sortedSites = sites.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
+  return res.status(200).json(sortedSites)
 }
