@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { Button, Flex } from '@chakra-ui/react'
 
 import { useAuth } from '@/lib/auth'
@@ -8,9 +9,9 @@ export default function Home() {
   const auth = useAuth()
   return (
     <div>
-      <head>
+      <Head>
         <title>Fast Feedback</title>
-      </head>
+      </Head>
       <Flex as='main' direction='column' align='center' justify='center' h='100vh'>
         <LogoIcon boxSize='64px' />
 
