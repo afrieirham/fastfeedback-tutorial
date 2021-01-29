@@ -39,7 +39,7 @@ function AddSiteModal({ children }) {
     createSite(newSite)
 
     // Update local sites data
-    mutate('/api/sites', async (sites) => [newSite, ...sites], false)
+    mutate('/api/sites', async ({ sites }) => ({ sites: [newSite, ...sites] }), false)
 
     toast({
       title: 'Success!',
