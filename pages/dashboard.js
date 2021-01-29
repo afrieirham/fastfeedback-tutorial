@@ -7,9 +7,9 @@ import fetcher from '@/utils/fetcher'
 import SiteTable from '@/components/SiteTable'
 
 function Dashboard() {
-  const { data: sites } = useSWR('/api/sites', fetcher)
+  const { data } = useSWR('/api/sites', fetcher)
 
-  if (!sites) {
+  if (!data) {
     return (
       <DashboardShell>
         <SiteTableSkeleton />
@@ -19,7 +19,7 @@ function Dashboard() {
 
   return (
     <DashboardShell>
-      {sites.length === 0 ? <EmptyState /> : <SiteTable sites={sites} />}
+      {data.sites.length === 0 ? <EmptyState /> : <SiteTable sites={data.sites} />}
     </DashboardShell>
   )
 }
