@@ -2,9 +2,10 @@ import useSWR from 'swr'
 
 import { useAuth } from '@/lib/auth'
 import fetcher from '@/utils/fetcher'
-import DashboardShell from '@/componentsßnts/SiteTableSkeleton'
+import DashboardShell from '@/components/DashboardShell'
 import SiteTable from '@/components/SiteTable'
 import SiteTableHeader from '@/components/SiteTableHeader'
+import SiteTableSkeleton from '@/components/SiteTableSkeleton'
 
 function Dashboard() {
   const { user } = useAuth()
