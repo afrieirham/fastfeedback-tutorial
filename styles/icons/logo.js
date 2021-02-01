@@ -9,4 +9,4 @@ const LogoIcon = (props) => (
   </Icon>
 )
 
-export { LogoIcon }
+export default LogoIcon
