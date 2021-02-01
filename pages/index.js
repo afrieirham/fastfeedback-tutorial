@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Head from 'next/head'
-import { Button, Flex } from '@chakra-ui/react'
+import { Button, Flex, Stack } from '@chakra-ui/react'
 
 import { useAuth } from '@/lib/auth'
-import { LogoIcon } from '@/styles/icons/logo'
+import { GithubIcon, GoogleIcon, LogoIcon } from '@/styles/icons'
 
 export default function Home() {
   const auth = useAuth()
@@ -26,12 +26,46 @@ export default function Home() {
 
         {auth?.user ? (
           <Link href='/dashboard'>
-            <Button mt={4}>View Dashboard</Button>
+            <Button
+              mt={4}
+              backgroundColor='white'
+              variant='outline'
+              color='gray.900'
+              fontWeight='semibold'
+              _hover={{ bg: 'gray.200' }}
+              _active={{ bg: 'gray.100', transform: 'scale(0.95)' }}
+            >
+              View Dashboard
+            </Button>
           </Link>
         ) : (
-          <Button mt={4} onClick={() => auth.signInWithGithub()}>
-            Sign In
-          </Button>
+          <Stack>
+            <Button
+              mt={4}
+              onClick={() => auth.signInWithGithub()}
+              backgroundColor='gray.900'
+              color='white'
+              fontWeight='semibold'
+              _hover={{ bg: 'gray.700' }}
+              _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
+              leftIcon={<GithubIcon />}
+            >
+              Sign In with GitHub
+            </Button>
+            <Button
+              mt={4}
+              onClick={() => auth.signInWithGoogle()}
+              backgroundColor='white'
+              variant='outline'
+              color='gray.900'
+              fontWeight='semibold'
+              _hover={{ bg: 'gray.200' }}
+              _active={{ bg: 'gray.100', transform: 'scale(0.95)' }}
+              leftIcon={<GoogleIcon />}
+            >
+              Sign In with Google
+            </Button>
+          </Stack>
         )}
       </Flex>
     </div>
