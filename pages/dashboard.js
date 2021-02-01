@@ -6,6 +6,7 @@ import DashboardShell from '@/components/DashboardShell'
 import SiteTable from '@/components/SiteTable'
 import SiteTableHeader from '@/components/SiteTableHeader'
 import SiteTableSkeleton from '@/components/SiteTableSkeleton'
+import EmptyState from '@/components/EmptyState'
 
 function Dashboard() {
   const { user } = useAuth()
