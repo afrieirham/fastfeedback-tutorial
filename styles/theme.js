@@ -7,6 +7,9 @@ const theme = {
         minWidth: '360px',
         scrollBehavior: 'smooth',
       },
+      body: {
+        bg: '#edf2f7',
+      },
       '#__next': {
         display: 'flex',
         flexDirection: 'column',
