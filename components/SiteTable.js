@@ -26,7 +26,7 @@ const SiteTable = ({ sites }) => (
               <Link>View Feedback</Link>
             </NextLink>
           </Td>
-          <Td>{format(parseISO(site.createdAt), 'MMM Do yyyy')}</Td>
+          <Td>{format(parseISO(site.createdAt), 'MMM Mo yyyy')}</Td>
         </Box>
       ))}
     </tbody>
