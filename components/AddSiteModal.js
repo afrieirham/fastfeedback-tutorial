@@ -27,7 +27,7 @@ function AddSiteModal({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleSubmit, register } = useForm()
 
-  const onSubmit = ({ name, url }) => {
+  const onSubmit = async ({ name, url }) => {
     const newSite = {
       authorId: user.uid,
       createdAt: new Date().toISOString(),
@@ -36,10 +36,14 @@ function AddSiteModal({ children }) {
     }
 
     // Add site to db
-    createSite(newSite)
+    const { id } = await createSite(newSite)
 
     // Update local sites data
-    mutate(['/api/sites', user.token], async ({ sites }) => ({ sites: [newSite, ...sites] }), false)
+    mutate(
+      ['/api/sites', user.token],
+      async ({ sites }) => ({ sites: [{ id, ...newSite }, ...sites] }),
+      false,
+    )
 
     toast({
       title: 'Success!',
