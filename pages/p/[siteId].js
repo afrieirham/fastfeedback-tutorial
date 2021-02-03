@@ -38,7 +38,7 @@ function SiteFeedback({ initialFeedback }) {
   const [comment, setComment] = useState('')
   const [allFeedback, setAllFeedback] = useState(initialFeedback)
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
 
     const newFeedback = {
@@ -51,9 +51,9 @@ function SiteFeedback({ initialFeedback }) {
       status: 'pending',
     }
 
-    createFeedback(newFeedback)
+    const { id } = await createFeedback(newFeedback)
     setComment('')
-    setAllFeedback([newFeedback, ...allFeedback])
+    setAllFeedback([{ id, ...newFeedback }, ...allFeedback])
   }
 
   return (
