@@ -3,7 +3,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Heading } from '@chak
 
 import AddSiteModal from './AddSiteModal'
 
-function SiteTableHeader() {
+function SiteTableHeader({ isFreeAccount }) {
   return (
     <>
       <Breadcrumb>
@@ -15,7 +15,7 @@ function SiteTableHeader() {
       </Breadcrumb>
       <Flex justifyContent='space-between' alignItems='flex-end' mb={4}>
         <Heading>My Sites</Heading>
-        <AddSiteModal>+ Add Site</AddSiteModal>
+        {!isFreeAccount && <AddSiteModal>+ Add Site</AddSiteModal>}
       </Flex>
     </>
   )

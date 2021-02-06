@@ -7,6 +7,7 @@ import SiteTable from '@/components/SiteTable'
 import SiteTableHeader from '@/components/SiteTableHeader'
 import SiteTableSkeleton from '@/components/SiteTableSkeleton'
 import EmptyState from '@/components/EmptyState'
+import FreePlanEmptyState from '@/components/FreePlanEmptyState'
 
 function Dashboard() {
   const { user } = useAuth()
@@ -17,6 +18,15 @@ function Dashboard() {
       <DashboardShell>
         <SiteTableHeader />
         <SiteTableSkeleton />
+      </DashboardShell>
+    )
+  }
+
+  if (!user?.stripeRole) {
+    return (
+      <DashboardShell>
+        <SiteTableHeader isFreeAccount />
+        <FreePlanEmptyState />
       </DashboardShell>
     )
   }
