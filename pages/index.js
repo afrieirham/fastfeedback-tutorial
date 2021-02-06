@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Head from 'next/head'
 import { Flex, Text, Stack, Button, Box, Link } from '@chakra-ui/react'
 
 import Feedback from '@/components/Feedback'
@@ -26,9 +25,6 @@ function Home({ initialFeedback }) {
 
   return (
     <div>
-      <Head>
-        <title>Fast Feedback</title>
-      </Head>
       <Flex flexDirection='column'>
         <Box backgroundColor='#edf2f7'>
           <Flex flexDirection='column' maxWidth='700px' ml='auto' mr='auto' pt={16} pb={16}>
