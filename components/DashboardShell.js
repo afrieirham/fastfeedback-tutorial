@@ -1,12 +1,12 @@
 import React from 'react'
 import NextLink from 'next/link'
-import { Flex, Stack, Link, Avatar, Button } from '@chakra-ui/react'
+import { Flex, Stack, Link, Avatar } from '@chakra-ui/react'
 
 import { LogoIcon } from '@/styles/icons'
 import { useAuth } from '@/lib/auth'
 
 const DashboardShell = ({ children }) => {
-  const auth = useAuth()
+  const { user } = useAuth()
   return (
     <Flex justifyContent='flex-start' flexDirection='column'>
       <Flex
@@ -15,8 +15,11 @@ const DashboardShell = ({ children }) => {
         alignItems='center'
         py={4}
         px={8}
+        mx='auto'
+        maxWidth='1200px'
+        width='full'
       >
-        <Stack spacing={2} isInline justifyContent='center' alignItems='center'>
+        <Stack spacing={4} isInline justifyContent='center' alignItems='center'>
           <NextLink href='/'>
             <LogoIcon boxSize='24px' />
           </NextLink>
@@ -27,16 +30,16 @@ const DashboardShell = ({ children }) => {
             <Link>Feedback</Link>
           </NextLink>
         </Stack>
-        <Stack spacing={2} isInline justifyContent='center' alignItems='center'>
-          {auth.user && (
-            <Button variant='ghost' mr={4} onClick={() => auth.signOut()}>
-              Log Out
-            </Button>
+        <Stack spacing={8} isInline justifyContent='center' alignItems='center'>
+          {user && (
+            <NextLink href='/account' passHref>
+              <Link>Account</Link>
+            </NextLink>
           )}
-          <Avatar size='sm' src={auth.user?.photoUrl} />
+          <Avatar size='sm' src={user?.photoUrl} />
         </Stack>
       </Flex>
-      <Flex backgroundColor='gray.50' p={8} height='100vh'>
+      <Flex backgroundColor='#edf2f7' p={8} height='100vh'>
         <Flex w='100%' maxWidth='800px' ml='auto' mr='auto' direction='column'>
           {children}
         </Flex>
