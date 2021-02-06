@@ -52,8 +52,8 @@ function Account() {
               <Text textTransform='uppercase' fontSize='xs' color='gray.500' fontWeight='semibold'>
                 Settings
               </Text>
-              <Badge variant='subtle' colorScheme='blue'>
-                Free
+              <Badge height='1rem' colorScheme='blue'>
+                {user?.stripeRole ?? 'Free'}
               </Badge>
             </Flex>
             <Stack spacing={8} p={4}>
@@ -70,7 +70,7 @@ function Account() {
                     Sites
                   </StatLabel>
                   <StatNumber fontWeight='semibold'>1/∞</StatNumber>
-                  <StatHelpText>Unlimited sites</StatHelpText>
+                  <StatHelpText>Unlimited Sites</StatHelpText>
                 </Stat>
               </Flex>
               <Flex>
