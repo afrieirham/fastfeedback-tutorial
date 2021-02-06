@@ -21,6 +21,7 @@ function FreePlanEmptyState() {
       justify='center'
       direction='column'
       align='center'
+      boxShadow='lg'
     >
       <Heading as='h2' size='lg' mb={2}>
         Get feedback on your site instantly.
