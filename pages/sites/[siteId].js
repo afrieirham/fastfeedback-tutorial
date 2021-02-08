@@ -6,6 +6,7 @@ import Feedback from '@/components/Feedback'
 import { useAuth } from '@/lib/auth'
 import { getAllFeedback, getAllSites } from '@/lib/db-admin'
 import { createFeedback } from '@/lib/db'
+import DashboardShell from '@/components/DashboardShell'
 
 export async function getStaticProps(context) {
   const { siteId } = context.params
@@ -57,23 +58,25 @@ function SiteFeedback({ initialFeedback }) {
   }
 
   return (
-    <Box display='flex' flexDirection='column' width='full' maxWidth='700px' mx='auto'>
-      <FormControl as='form' id='comment' my={8} onSubmit={onSubmit}>
-        <FormLabel>Comment</FormLabel>
-        <Input
-          type='text'
-          name='comment'
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <Button mt={2} type='submit'>
-          Add Comment
-        </Button>
-      </FormControl>
-      {allFeedback.map((feedback) => (
-        <Feedback key={feedback.id} {...feedback} />
-      ))}
-    </Box>
+    <DashboardShell>
+      <Box display='flex' flexDirection='column' width='full' maxWidth='700px' mx='auto'>
+        <FormControl as='form' id='comment' my={8} onSubmit={onSubmit}>
+          <FormLabel>Comment</FormLabel>
+          <Input
+            type='text'
+            name='comment'
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <Button mt={2} type='submit'>
+            Add Comment
+          </Button>
+        </FormControl>
+        {allFeedback.map((feedback) => (
+          <Feedback key={feedback.id} {...feedback} />
+        ))}
+      </Box>
+    </DashboardShell>
   )
 }
 

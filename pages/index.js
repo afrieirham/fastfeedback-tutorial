@@ -42,7 +42,7 @@ function Home({ initialFeedback }) {
             </Text>
             <Stack spacing={2} isInline>
               {auth.user ? (
-                <Link href='/dashboard'>
+                <Link href='/sites'>
                   <Button
                     backgroundColor='gray.900'
                     color='white'
