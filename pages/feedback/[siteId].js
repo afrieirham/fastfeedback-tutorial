@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import { useAuth } from '@/lib/auth'
 import fetcher from '@/utils/fetcher'
 import DashboardShell from '@/components/DashboardShell'
-import EmptyState from '@/components/EmptyState'
+import FeedbackEmptyState from '@/components/FeedbackEmptyState'
 import SiteTableSkeleton from '@/components/SiteTableSkeleton'
 import FeedbackTable from '@/components/FeedbackTable'
 import FeedbackTableHeader from '@/components/FeedbackTableHeader'
@@ -26,7 +26,11 @@ function SiteFeedback() {
   return (
     <DashboardShell>
       <FeedbackTableHeader site={data.site} />
-      {data.feedback.length === 0 ? <EmptyState /> : <FeedbackTable allFeedback={data.feedback} />}
+      {data.feedback.length === 0 ? (
+        <FeedbackEmptyState />
+      ) : (
+        <FeedbackTable allFeedback={data.feedback} />
+      )}
     </DashboardShell>
   )
 }
