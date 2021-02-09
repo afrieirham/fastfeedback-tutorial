@@ -100,7 +100,7 @@ function FeedbackPage({ initialFeedback, site }) {
           </Button>
         </FormControl>
         {allFeedback &&
-          allFeedback.length &&
+          Boolean(allFeedback.length) &&
           allFeedback.map((feedback) => <Feedback key={feedback.id} {...feedback} />)}
       </Box>
     </DashboardShell>
