@@ -17,6 +17,7 @@ import { useAuth } from '@/lib/auth'
 import { getAllFeedback, getAllSites, getSite } from '@/lib/db-admin'
 import { createFeedback } from '@/lib/db'
 import DashboardShell from '@/components/DashboardShell'
+import SiteHeader from '@/components/SiteHeader'
 
 export async function getStaticProps(context) {
   const [siteId, route] = context.params.site
@@ -78,38 +79,7 @@ function FeedbackPage({ initialFeedback, site }) {
   return (
     <DashboardShell>
       <Box display='flex' flexDirection='column' width='full' maxWidth='800px' mx='auto'>
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <NextLink href='/sites' passHref>
-              <BreadcrumbLink color='gray.700' fontSize='sm'>
-                Sites
-              </BreadcrumbLink>
-            </NextLink>
-          </BreadcrumbItem>
-          {Boolean(!route) ? (
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink color='gray.700' fontSize='sm'>
-                {site?.name}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          ) : (
-            <BreadcrumbItem>
-              <NextLink href={`/sites/${site?.id}`} passHref>
-                <BreadcrumbLink color='gray.700' fontSize='sm'>
-                  {site?.name}
-                </BreadcrumbLink>
-              </NextLink>
-            </BreadcrumbItem>
-          )}
-          {route && (
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink color='gray.700' fontSize='sm'>
-                {route}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          )}
-        </Breadcrumb>
-        <Heading>{site?.name}</Heading>
+        <SiteHeader site={site} route={route} />
         <FormControl as='form' id='comment' my={8} onSubmit={onSubmit}>
           <Textarea
             value={comment}
