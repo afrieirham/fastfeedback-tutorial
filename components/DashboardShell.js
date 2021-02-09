@@ -57,7 +57,7 @@ const DashboardShell = ({ children }) => {
           </Stack>
         </Flex>
         <Flex backgroundColor='#edf2f7' p={8} minHeight='100vh'>
-          <Flex w='100%' maxWidth='800px' ml='auto' mr='auto' direction='column'>
+          <Flex w='100%' maxWidth='1000px' ml='auto' mr='auto' direction='column'>
             {children}
           </Flex>
         </Flex>
