@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 
 import { getAllFeedback, getAllSites } from '@/lib/db-admin'
 import Feedback from '@/components/Feedback'
 import FeedbackLink from '@/components/FeedbackLink'
 
 export async function getStaticProps(context) {
-  const { siteId } = context.params
-  const { feedback } = await getAllFeedback(siteId)
+  const [siteId, route] = context.params.site
+  const { feedback } = await getAllFeedback(siteId, route)
   return {
     props: {
       initialFeedback: feedback,
@@ -21,28 +21,29 @@ export async function getStaticPaths() {
   const { sites } = await getAllSites()
   const paths = sites.map((site) => ({
     params: {
-      siteId: site.id,
+      site: [String(site.id)],
     },
   }))
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   }
 }
 
-function SiteFeedback({ initialFeedback }) {
+function EmbeddedFeedbackPage({ initialFeedback }) {
   const router = useRouter()
-  const [allFeedback] = useState(initialFeedback)
 
   return (
     <Box display='flex' flexDirection='column'>
-      <FeedbackLink siteId={router.query.siteId} />
-      {allFeedback.map((feedback) => (
-        <Feedback key={feedback.id} {...feedback} />
-      ))}
+      <FeedbackLink />
+      {initialFeedback && initialFeedback.length ? (
+        initialFeedback.map((feedback) => <Feedback key={feedback.id} {...feedback} />)
+      ) : (
+        <Text>There are no comments for this site.</Text>
+      )}
     </Box>
   )
 }
 
-export default SiteFeedback
+export default EmbeddedFeedbackPage

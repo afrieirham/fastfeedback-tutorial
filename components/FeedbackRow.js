@@ -7,7 +7,7 @@ import RemoveButton from './RemoveButton'
 import { useAuth } from '@/lib/auth'
 import { updateFeedback } from '@/lib/db'
 
-const FeedbackTable = ({ id, author, text, status }) => {
+const FeedbackRow = ({ id, author, text, status, route }) => {
   const { user } = useAuth()
 
   const toggleFeedback = (e) => {
@@ -36,7 +36,7 @@ const FeedbackTable = ({ id, author, text, status }) => {
       <Td fontWeight='semibold'>{author}</Td>
       <Td>{text}</Td>
       <Td>
-        <Code>/</Code>
+        <Code>{route}</Code>
       </Td>
       <Td>
         <Switch onChange={toggleFeedback} colorScheme='green' isChecked={status === 'active'} />
@@ -48,4 +48,4 @@ const FeedbackTable = ({ id, author, text, status }) => {
   )
 }
 
-export default FeedbackTable
+export default FeedbackRow
