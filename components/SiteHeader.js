@@ -1,8 +1,10 @@
 import React from 'react'
 import NextLink from 'next/link'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Heading } from '@chakra-ui/react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Heading } from '@chakra-ui/react'
 
-function SiteHeader({ site, route }) {
+import EditSiteSettingModal from './EditSiteSettingModal'
+
+function SiteHeader({ isOwner, site, route }) {
   return (
     <>
       <Breadcrumb>
@@ -36,7 +38,14 @@ function SiteHeader({ site, route }) {
           </BreadcrumbItem>
         )}
       </Breadcrumb>
-      <Heading>{site?.name}</Heading>
+      <Flex justifyContent='space-between' alignItems='flex-end' mt={4}>
+        <Heading>{site?.name}</Heading>
+        {isOwner && (
+          <EditSiteSettingModal siteId={site?.id} siteSettings={site?.settings}>
+            Edit Site
+          </EditSiteSettingModal>
+        )}
+      </Flex>
     </>
   )
 }
