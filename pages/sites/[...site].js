@@ -1,110 +1,37 @@
-import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 import { useRouter } from 'next/router'
-import NextLink from 'next/link'
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Button,
-  FormControl,
-  Heading,
-  Textarea,
-} from '@chakra-ui/react'
 
-import Feedback from '@/components/Feedback'
 import { useAuth } from '@/lib/auth'
-import { getAllFeedback, getAllSites, getSite } from '@/lib/db-admin'
-import { createFeedback } from '@/lib/db'
+import fetcher from '@/utils/fetcher'
 import DashboardShell from '@/components/DashboardShell'
 import SiteHeader from '@/components/SiteHeader'
+import Feedback from '@/components/Feedback'
+import FeedbackForm from '@/components/FeedbackForm'
+import SiteFeedbackSkeleton from '@/components/SiteFeedbackSkeleton'
 
-export async function getStaticProps(context) {
-  const [siteId, route] = context.params.site
-  const { feedback } = await getAllFeedback(siteId, route)
-  const { site } = await getSite(siteId)
-  return {
-    props: {
-      initialFeedback: feedback,
-      site,
-    },
-    revalidate: 1,
-  }
-}
-
-export async function getStaticPaths() {
-  const { sites } = await getAllSites()
-  const paths = sites.map((site) => ({
-    params: {
-      site: [String(site.id)],
-    },
-  }))
-
-  return {
-    paths,
-    fallback: true,
-  }
-}
-
-function FeedbackPage({ initialFeedback, site }) {
-  const auth = useAuth()
+function SiteFeedback() {
   const router = useRouter()
-  const [comment, setComment] = useState('')
-  const [allFeedback, setAllFeedback] = useState(initialFeedback)
+
   const [siteId, route] = router.query.site || []
+  const { user } = useAuth()
+  const { data } = useSWR(user && [`/api/feedback/${siteId}/${route ?? ''}`, user.token], fetcher)
 
-  useEffect(() => {
-    setAllFeedback(initialFeedback)
-  }, [initialFeedback])
-
-  const onSubmit = async (e) => {
-    e.preventDefault()
-
-    const newFeedback = {
-      siteId,
-      route: route ?? 'home',
-      author: auth.user.name,
-      authorId: auth.user.uid,
-      text: comment,
-      createdAt: new Date().toISOString(),
-      provider: auth.user.provider,
-      status: 'pending',
-    }
-
-    const { id } = await createFeedback(newFeedback)
-    setComment('')
-    setAllFeedback([{ id, ...newFeedback }, ...allFeedback])
+  if (!data) {
+    return (
+      <DashboardShell>
+        <SiteFeedbackSkeleton />
+      </DashboardShell>
+    )
   }
 
   return (
     <DashboardShell>
-      <Box display='flex' flexDirection='column' width='full' maxWidth='800px' mx='auto'>
-        <SiteHeader site={site} route={route} />
-        <FormControl as='form' id='comment' my={8} onSubmit={onSubmit}>
-          <Textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder='Leave a comment'
-            backgroundColor='white'
-          />
-          <Button
-            mt={2}
-            type='submit'
-            backgroundColor='gray.900'
-            color='white'
-            fontWeight='semibold'
-            _hover={{ bg: 'gray.700' }}
-            _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
-          >
-            Leave Feedback
-          </Button>
-        </FormControl>
-        {allFeedback &&
-          Boolean(allFeedback.length) &&
-          allFeedback.map((feedback) => <Feedback key={feedback.id} {...feedback} />)}
-      </Box>
+      <SiteHeader isOwner={data.site?.authorId === user?.uid} site={data.site} route={route} />
+      <FeedbackForm siteId={siteId} route={route} user={user} />
+      {Boolean(data?.feedback?.length) &&
+        data?.feedback.map((feedback) => <Feedback key={feedback.id} {...feedback} />)}
     </DashboardShell>
   )
 }
 
-export default FeedbackPage
+export default SiteFeedback

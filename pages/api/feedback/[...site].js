@@ -3,8 +3,10 @@ import { formatObjectKeys, logger } from '@/utils/logger'
 
 export default async (req, res) => {
   try {
-    const { feedback } = await getAllFeedback(req.query.siteId)
-    const { site } = await getSite(req.query.siteId)
+    const [siteId, route] = req.query.site || []
+    const { feedback } = await getAllFeedback(siteId, route)
+    const { site } = await getSite(siteId)
+
     res.status(200).json({ feedback, site })
   } catch (error) {
     res.status(500).json({ error })
